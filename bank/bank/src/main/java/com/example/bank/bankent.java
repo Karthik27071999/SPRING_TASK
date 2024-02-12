@@ -2,6 +2,8 @@ package com.example.bank;
 
 import java.math.BigDecimal;
 
+import com.itextpdf.layout.element.Cell;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +19,7 @@ public class bankent {
 	private long id;
 	private String name;
 	private String email;
+	private String phonenumber;
 	private String account;
 	private BigDecimal balance;
 	public long getId() {
@@ -49,17 +52,25 @@ public class bankent {
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
-	private bankent(long id, String name, String email, String account, BigDecimal balance) {
+	
+	private bankent(long id, String name, String email, String phonenumber, String account, BigDecimal balance) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
+		this.phonenumber = phonenumber;
 		this.account = account;
 		this.balance = balance;
 	}
 	bankent() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+	public String getPhonenumber() {
+		return phonenumber;
+	}
+	public void setPhonenumber(String phonenumber) {
+		this.phonenumber = phonenumber;
 	}
 	
 	
