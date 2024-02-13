@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.bank.pdf.PdfReportService;
+import com.example.bank.request.Accountreq;
+import com.example.bank.request.bankrequest;
+import com.example.bank.transaction.Transaction;
+import com.example.bank.transaction.TransactionService;
 
 @RestController
 public class bankcontrol {
@@ -24,6 +28,7 @@ public class bankcontrol {
 	private TransactionService ss;
 	@Autowired
     private PdfReportService pdfReportService;
+	
 	
 	@PostMapping("/adduser")
 	public bankent in(@RequestBody bankrequest req) {
@@ -42,10 +47,10 @@ public class bankcontrol {
 	public Transaction debit(@PathVariable long id,@RequestBody Transaction tt) throws Exception {
 		return ss.debit(id, tt.getAmount());
 	}
-	 @GetMapping("/report")
-	    public ResponseEntity<InputStreamResource> generatePdfReport() {
-	        List<bankent> data = service.getall(); // Assume you have a method to fetch data from database
-	        ByteArrayInputStream pdfReport = pdfReportService.generatePdfReport(data);
+	 @PostMapping("/report")
+	    public ResponseEntity<InputStreamResource> generatePdfReport(@RequestBody Accountreq account) {
+	        List<Transaction> data = ss.getbyaccount(account.getAccount());// Assume you have a method to fetch data from database
+	        ByteArrayInputStream pdfReport =pdfReportService.generatePdfReport(data);
 
 	        HttpHeaders headers = new HttpHeaders();
 	        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=report.pdf");
@@ -55,6 +60,10 @@ public class bankcontrol {
 	                .headers(headers)
 	                .contentType(MediaType.APPLICATION_PDF)
 	                .body(new InputStreamResource(pdfReport));
-	    }
+	 }
+	 @PostMapping("/account")
+	 public List<Transaction> getaccount(@RequestBody Accountreq account){
+		 return ss.getbyaccount(account.getAccount());
+	 }
 
 }

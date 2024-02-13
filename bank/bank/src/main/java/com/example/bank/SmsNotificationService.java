@@ -25,7 +25,7 @@ public class SmsNotificationService {
                 new PhoneNumber(twilioPhoneNumber),
                 messageBody)
                 .create();
-        System.out.println("SMS notification sent successfully to " + recipientPhoneNumber);
+        System.out.println("SMS notification sent successfully to " + recipientPhoneNumber+message);
     }
 
 

@@ -1,6 +1,5 @@
 package com.example.bank.pdf;
-
-import com.example.bank.bankent;
+import com.example.bank.transaction.Transaction;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -15,7 +14,7 @@ import java.util.List;
 @Service
 public class PdfReportService {
 
-    public ByteArrayInputStream generatePdfReport(List<bankent> data) {
+    public ByteArrayInputStream generatePdfReport(List<Transaction> data) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         try (PdfWriter writer = new PdfWriter(outputStream);
@@ -23,26 +22,25 @@ public class PdfReportService {
              Document document = new Document(pdfDocument)) {
 
             // Add title
-            Paragraph title = new Paragraph("ACCOUNT HOLDERS LIST");
+            Paragraph title = new Paragraph("TRANSACTION DETAILS");
             title.setTextAlignment(TextAlignment.CENTER);
             document.add(title);
 
             // Add data to the table
-            Table table = new Table(6);
-            table.addCell("ID");
-            table.addCell("Name");
-            table.addCell("EMAIL");
-            table.addCell("PHONE NUMBER");
+            Table table = new Table(5);
+            table.addCell("S.NO");
             table.addCell("ACCOUNT NUMBER");
-            table.addCell("BALANCE");
+            table.addCell("AMOUNT");
+            table.addCell("TIME");
+            table.addCell("TRANSACTION TYPE");
+            
 
-            for (bankent item : data) {
-                table.addCell(String.valueOf(item.getId()));
-                table.addCell(item.getName());
-                table.addCell(item.getEmail());
-                table.addCell(item.getPhonenumber());
-                table.addCell(item.getAccount());
-                table.addCell(String.valueOf(item.getBalance()));
+            for (Transaction item : data) {
+            	table.addCell(String.valueOf(item.getTransaction_id()));
+            	table.addCell(item.getAccount());
+            	table.addCell(String.valueOf(item.getAmount()));
+                table.addCell(String.valueOf(item.getTime()));
+                table.addCell(item.getTransactiontype());   
             }
 
             document.add(table);

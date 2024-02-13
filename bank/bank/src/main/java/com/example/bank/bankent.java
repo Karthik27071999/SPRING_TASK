@@ -2,7 +2,6 @@ package com.example.bank;
 
 import java.math.BigDecimal;
 
-import com.itextpdf.layout.element.Cell;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -53,7 +52,7 @@ public class bankent {
 		this.balance = balance;
 	}
 	
-	private bankent(long id, String name, String email, String phonenumber, String account, BigDecimal balance) {
+	public bankent(long id, String name, String email, String phonenumber, String account, BigDecimal balance) {
 		super();
 		this.id = id;
 		this.name = name;
