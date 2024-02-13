@@ -15,6 +15,8 @@ public class bankservice {
 	private bankrepo repo;
 	 @Autowired
 	    private SmsNotificationService smsNotificationService;
+	 @Autowired
+	 private EmailService mailservice;
 	
 	
 	public bankent added(bankrequest req) {
@@ -22,8 +24,12 @@ public class bankservice {
 			throw new EmailAlreadyRegistered("THIS EMAIL IS ALREADY REGISTERD,PLEASE ENTER ANOTHER EMAIL TO CREATE NEW ACCOUNT");
 		}
 		else {
+			String to = req.getEmail(); 
+	        String subject = "Bank Account Created";
+	        String text = "Congratulations! Your bank account has been successfully created.";
+	       mailservice.sendEmail(to, subject, text);
+	       
 			try {
-	            
 	            String recipientPhoneNumber = req.getPhonenumber();
 	            String messageBody = "Your account has been successfully created. Welcome to our platform!";
 	            smsNotificationService.sendSmsNotification(recipientPhoneNumber, messageBody);
