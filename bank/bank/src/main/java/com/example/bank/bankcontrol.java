@@ -1,6 +1,7 @@
 package com.example.bank;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import com.example.bank.request.bankrequest;
 import com.example.bank.transaction.Transaction;
 import com.example.bank.transaction.TransactionService;
 
+import jakarta.mail.MessagingException;
+
 @RestController
 public class bankcontrol {
 	@Autowired
@@ -28,12 +31,12 @@ public class bankcontrol {
 	private TransactionService ss;
 	@Autowired
     private PdfReportService pdfReportService;
-	
+	@Autowired
+	 private EmailService mailservice;
 	
 	@PostMapping("/adduser")
 	public bankent in(@RequestBody bankrequest req) {
-		return service.added(req);
-		
+		return service.added(req);	
 	}
 	@GetMapping("/users")
 	public List<bankent> get() {
@@ -64,6 +67,14 @@ public class bankcontrol {
 	 @PostMapping("/account")
 	 public List<Transaction> getaccount(@RequestBody Accountreq account){
 		 return ss.getbyaccount(account.getAccount());
+	 }
+	 @PostMapping("/transaction")
+	 public ResponseEntity<String> sendmail(@RequestBody Accountreq re) throws MessagingException, IOException{
+		 List<Transaction> report=ss.getbyaccount(re.getAccount());
+		  ByteArrayInputStream pdfReport = pdfReportService.generatePdfReport(report);
+		  mailservice.sendEmailwithattachment(re.getEmail(), pdfReport, "Transaction_details.pdf");
+		return ResponseEntity.ok().body("Report generated and sent to " + re.getEmail());
+		 
 	 }
 
 }
