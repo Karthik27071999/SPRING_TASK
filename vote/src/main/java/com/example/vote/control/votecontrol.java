@@ -1,16 +1,21 @@
 package com.example.vote.control;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.vote.entity.election;
 import com.example.vote.entity.gamers;
 import com.example.vote.entity.voters;
+import com.example.vote.pdf.pdfconfig;
 import com.example.vote.repo.electionrepo;
 import com.example.vote.repo.gamersrepo;
 import com.example.vote.req.request;
@@ -27,6 +32,8 @@ public class votecontrol {
 	private electionrepo erepo;
 	@Autowired
 	private gamersrepo grepo;
+	@Autowired
+	private pdfconfig pdf;
 	
 	@PostMapping("/voterregister")
 	public voters addone(@RequestBody voters votes) {
@@ -69,17 +76,36 @@ public class votecontrol {
 			votes.setId(vv.getId());
 			votes.setName(req.getName());
 			erepo.save(votes);
-			
-			
-
+		
 			return "YOUR VOTE ADDED SUCCESFULLY";
 		}
-		
-		
 	}
-	@GetMapping("/results")
+	@GetMapping("/result")
 	public List<gamers> results(){
 		return grepo.findAll();
+	}
+	@GetMapping("/result/report")
+	public ResponseEntity<InputStreamResource> getpdf(){
+		List<gamers> all=grepo.findAll();
+		ByteArrayInputStream bytes=pdf.generatePdfReport(all);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=result-report.pdf");
+
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(bytes));
+ 
+	}
+	
+	@GetMapping("/result/votersreport")
+	public ResponseEntity<InputStreamResource> getvoterspdf(){
+		List<election> all=erepo.findAll();
+		ByteArrayInputStream bytes=pdf.generatevotersPdfReport(all);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Voters-report.pdf");
+
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(bytes));
+ 
 	}
 
 }
