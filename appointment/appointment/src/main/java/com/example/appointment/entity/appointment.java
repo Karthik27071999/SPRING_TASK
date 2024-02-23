@@ -25,6 +25,7 @@ public class appointment {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String status;
+    private String remind_status;
 	public long getId() {
 		return id;
 	}
@@ -42,6 +43,9 @@ public class appointment {
 	}
 	public String getStatus() {
 		return status;
+	}
+	public String getRemind_status() {
+		return remind_status;
 	}
 	public void setId(long id) {
 		this.id = id;
@@ -61,8 +65,11 @@ public class appointment {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	private appointment(long id, appusers appuser, serviceprovider sp, LocalDateTime startTime, LocalDateTime endTime,
-			String status) {
+	public void setRemind_status(String remind_status) {
+		this.remind_status = remind_status;
+	}
+	public appointment(long id, appusers appuser, serviceprovider sp, LocalDateTime startTime, LocalDateTime endTime,
+			String status, String remind_status) {
 		super();
 		this.id = id;
 		this.appuser = appuser;
@@ -70,11 +77,18 @@ public class appointment {
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.status = status;
+		this.remind_status = remind_status;
 	}
 	public appointment() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	@Override
+	public String toString() {
+		return "appointment [id=" + id + ", appuser=" + appuser + ", sp=" + sp + ", startTime=" + startTime
+				+ ", endTime=" + endTime + ", status=" + status + ", remind_status=" + remind_status + "]";
+	}
+	
     
     
 

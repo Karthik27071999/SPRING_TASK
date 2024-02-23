@@ -2,6 +2,7 @@ package com.example.appointment.repo;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +18,10 @@ public interface appointmentrepo extends JpaRepository<appointment,Long>{
              @Param("serviceName") String serviceName,
              @Param("startTime") LocalDateTime startTime,
              @Param("endTime") LocalDateTime endTime);
+    
+    @Query("SELECT a FROM appointment a WHERE a.startTime BETWEEN :startTime AND :endTime")
+    List<appointment> findUpcomingAppointments(
+            @Param("startTime") LocalDateTime startTime,
+            @Param("endTime") LocalDateTime endTime);
 
 }
