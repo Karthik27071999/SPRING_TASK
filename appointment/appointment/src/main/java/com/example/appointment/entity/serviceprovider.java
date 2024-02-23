@@ -1,13 +1,15 @@
 package com.example.appointment.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,7 +23,7 @@ public class serviceprovider {
 	private String context;
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
-	@OneToOne
+	@ManyToOne
 	private appusers appuser;
 	public long getId() {
 		return id;
@@ -59,7 +61,7 @@ public class serviceprovider {
 	public void setEndTime(LocalDateTime endTime) {
 		this.endTime = endTime;
 	}
-	private serviceprovider(long id, String servicename, String context, appusers appuser, LocalDateTime startTime,
+	public serviceprovider(long id, String servicename, String context, appusers appuser, LocalDateTime startTime,
 			LocalDateTime endTime) {
 		super();
 		this.id = id;

@@ -75,15 +75,6 @@ public class serviceproviderservice {
 	            sendReminderEmail(appointment);
 	            appointment.setRemind_status("REMINDED");
 	            apprepo.save(appointment);
-//	            appusers reminduser=arepo.findById(appointment.getAppuser().getId()).orElseThrow(()->new Exception("USER NOT FOUND"));
-//	        	appointment remindapp=new appointment();
-//	        	remindapp.setAppuser(reminduser);
-//	        	remindapp.setSp(appointment.getSp());
-//	        	remindapp.setStartTime(appointment.getStartTime());
-//	        	remindapp.setEndTime(appointment.getEndTime());
-//	        	remindapp.setStatus(appointment.getStatus());
-//	        	remindapp.setRemind_status("REMINDED");
-//	        	apprepo.save(remindapp);
 	            
 	        	}
 	        	}
