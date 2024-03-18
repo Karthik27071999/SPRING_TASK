@@ -25,9 +25,6 @@ public class UserService {
 		return repo.findAll();
 	}
 	
-	public void delete(Long id) {
-		repo.deleteById(id);
-	}
 	
 	public UserEntity update(Long id,UserEntity ue) {
 		UserEntity user=repo.findById(id).orElseThrow(()->new EntityNotFoundException("ENTITY WITH GIVEN ID IS NOT FOUND"));

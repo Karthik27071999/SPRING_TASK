@@ -32,11 +32,7 @@ public class UserController {
 		return service.update(id, ue);
 	}
 	
-	@DeleteMapping("/delete/{id}")
-	public String deleteid(@PathVariable Long id) {
-		service.delete(id);
-		return "DATA DELETED SUUCESFULLY"+"-"+"id";
-	}
+	
 	
 	@GetMapping("/get/{id}")
 	public Optional<UserEntity> getid(@PathVariable Long id) {
